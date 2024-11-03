@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Regression Assumptions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Interactive Linear Regression Assumptions</h1>
+
+    <form method="POST">
+        <label for="N">Sample Size (N):</label>
+        <input type="number" id="N" name="N" required value="{{ request.form['N'] if request.form['N'] else '' }}">
+    
+        <label for="mu">Mean (μ):</label>
+        <input type="number" step="any" id="mu" name="mu" required value="{{ request.form['mu'] if request.form['mu'] else '' }}">
+    
+        <label for="sigma2">Variance (σ²):</label>
+        <input type="number" step="any" id="sigma2" name="sigma2" required value="{{ request.form['sigma2'] if request.form['sigma2'] else '' }}">
+    
+        <label for="S">Number of Simulations (S):</label>
+        <input type="number" id="S" name="S" required value="{{ request.form['S'] if request.form['S'] else '' }}">
+    
+        <button type="submit">Generate</button>
+    </form>
+
+    {% if plot1 and plot2 %}
+        <h2>Generated Plot</h2>
+        <img src="{{ plot1 }}" alt="Regression Plot">
+
+        <h2>Histogram of Slopes and Intercepts</h2>
+        <img src="{{ plot2 }}" alt="Histograms">
+
+        <p>Proportion of slopes more extreme than calculated slope: {{ slope_extreme | round(2) }}</p>
+        <p>Proportion of intercepts more extreme than calculated intercept: {{ intercept_extreme | round(2) }}</p>
+    {% endif %}
+</body>
+</html>
